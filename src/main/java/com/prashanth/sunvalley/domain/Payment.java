@@ -1,5 +1,6 @@
 package com.prashanth.sunvalley.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "fee_id")
+    @JsonBackReference
     private Fee fee;
 
     private BigDecimal amount;

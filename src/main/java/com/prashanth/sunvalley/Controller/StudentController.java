@@ -36,15 +36,16 @@ public class StudentController {
         return studentService.createStudent(studentDTO);
     }
 
-    @PutMapping("{studentId}")
+    @PutMapping("/{studentId}")
     @ResponseStatus(HttpStatus.OK)
     public StudentDTO updateStudent(@PathVariable String studentId, @RequestBody StudentDTO studentDTO){
         return studentService.updateStudent(studentId,studentDTO);
     }
 
-    @DeleteMapping("{studentId}")
+    @DeleteMapping("/{studentId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteStudent(@PathVariable String studentId){
         studentService.deleteStudent(studentId);
     }
+
 }

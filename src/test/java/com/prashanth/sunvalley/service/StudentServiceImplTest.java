@@ -7,22 +7,22 @@ import static org.junit.Assert.*;
 public class StudentServiceImplTest {
 
     @Test
-    public void getAllStudents() throws Exception {
+    public void getAllStudents() {
     }
 
     @Test
-    public void getStudentByStudentId() throws Exception {
+    public void getStudentByStudentId() {
     }
 
     @Test
-    public void createStudent() throws Exception {
+    public void createStudent() {
     }
 
     @Test
-    public void updateStudent() throws Exception {
+    public void updateStudent() {
     }
 
     @Test
-    public void deleteStudent() throws Exception {
+    public void deleteStudent() {
     }
 }

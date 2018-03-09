@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,8 +20,8 @@ public class Fee {
     @OneToOne
     private Student student;
 
-    @OneToMany(mappedBy = "fee")
-    private List<Payment> payments;
+    @OneToMany(mappedBy = "fee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> payments = new ArrayList<>();
 
     private BigDecimal tuitionFee;
     private BigDecimal bookFee;
@@ -28,6 +29,6 @@ public class Fee {
     private BigDecimal transportFee;
     private BigDecimal oldBalance;
 
-    @OneToMany(mappedBy = "fee")
+    @OneToMany(mappedBy = "fee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MiscFee> miscFee;
 }

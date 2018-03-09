@@ -33,7 +33,7 @@ public class Bootstrap implements CommandLineRunner{
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         loadLocations();
         loadGrades();
@@ -104,8 +104,6 @@ public class Bootstrap implements CommandLineRunner{
 
     }
 
-
-
     private void loadStudents() {
         StudentIdKeeper studentIdKeeper = new StudentIdKeeper();
         studentIdKeeperRepository.save(studentIdKeeper);
@@ -119,19 +117,24 @@ public class Bootstrap implements CommandLineRunner{
         student.setFathersNumber("12345678");
         student.setMothersName("Nagarathna");
         student.setMothersNumber("213123213");
-        student.setDateOfBirth(LocalDate.of(1988,04,27));
+        student.setDateOfBirth(LocalDate.of(1988,4,27));
 
-        Fee fee = new Fee();
-        fee.setBookFee(new BigDecimal(3500));
-        fee.setStudent(student);
-        fee.setTransportFee(new BigDecimal(2450));
-        fee.setOldBalance(new BigDecimal(10000));
-        fee.setTuitionFee(new BigDecimal(16500));
-        fee.setUniformFee(new BigDecimal(1500));
-
-        student.setFee(fee);
         student.setGrade(gradeRepository.findByGradeAndSection("LKG","A").get());
         student.setLocation(locationRepository.findByLocation("Hoskote").get());
+        student.setFee(new Fee());
+        student.getFee().setTuitionFee(new BigDecimal(15000));
+        student.getFee().setBookFee(new BigDecimal(3500));
+        student.getFee().setUniformFee(new BigDecimal(1500));
+        student.getFee().setTransportFee(new BigDecimal(2500));
+        student.getFee().setOldBalance(new BigDecimal(10000));
+        student.getFee().setStudent(student);
+        Payment payment = new Payment();
+        payment.setFee(student.getFee());
+        payment.setDate(LocalDate.now());
+        payment.setAmount(new BigDecimal(10000));
+        payment.setPaymentType(PaymentType.TUITION);
+        student.getFee().getPayments().add(payment);
+
         studentRepository.save(student);
         log.info("Student Saved");
 

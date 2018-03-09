@@ -22,19 +22,20 @@ import static org.mockito.Mockito.when;
 @Ignore
 public class StudentMapperTest {
 
-    StudentMapper studentMapper;
+    private StudentMapper studentMapper;
 
     @Mock
+    private
     FeeMapper feeMapper;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         studentMapper = StudentMapper.INSTANCE;
     }
 
     @Test
-    public void studentAndFeeToStudentDTO() throws Exception {
+    public void studentAndFeeToStudentDTO() {
         Student student = new Student();
         student.setFirstName("Prashanth");
         StudentIdKeeper studentIdKeeper = new StudentIdKeeper();
@@ -65,10 +66,10 @@ public class StudentMapperTest {
     }
 
     @Test
-    public void studentDTOToStudent() throws Exception {
+    public void studentDTOToStudent() {
     }
 
     @Test
-    public void studentDTOToFee() throws Exception {
+    public void studentDTOToFee() {
     }
 }

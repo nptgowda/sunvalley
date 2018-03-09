@@ -13,14 +13,14 @@ import static org.junit.Assert.*;
 
 public class LocationMapperTest {
 
-    LocationMapper locationMapper;
+    private LocationMapper locationMapper;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         locationMapper = LocationMapper.INSTANCE;
     }
 
     @Test
-    public void locationToLocationDTO() throws Exception {
+    public void locationToLocationDTO() {
         Location location = new Location();
         location.setId(1L);
         location.setLocation("Gowda");

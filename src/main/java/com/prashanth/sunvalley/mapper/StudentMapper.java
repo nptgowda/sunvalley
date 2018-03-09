@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel="spring",uses = {FeeMapper.class,GradeMapper.class,LocationMapper.class})
+@Mapper(uses = {FeeMapper.class,GradeMapper.class,LocationMapper.class})
 public interface StudentMapper {
 
     StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
@@ -16,7 +16,6 @@ public interface StudentMapper {
 //    @Mapping(target = "studentId", source = "student.studentId.studentId")
     StudentDTO studentAndFeeToStudentDTO(Student student, Fee fee);
     Student studentDTOToStudent(StudentDTO studentDTO);
-    Fee studentDTOToFee(StudentDTO studentDTO);
 
 
 }

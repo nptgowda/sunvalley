@@ -9,14 +9,14 @@ import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 public class GradeMapperTest {
-    GradeMapper gradeMapper;
+    private GradeMapper gradeMapper;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         gradeMapper = GradeMapper.INSTANCE;
     }
 
     @Test
-    public void gradeToGradeDTO() throws Exception {
+    public void gradeToGradeDTO() {
         Grade grade = new Grade();
         grade.setId(1L);
         grade.setSection("A");

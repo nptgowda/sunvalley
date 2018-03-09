@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-public class MiscFee {
+class MiscFee {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

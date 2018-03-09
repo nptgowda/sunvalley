@@ -24,4 +24,5 @@ public class StudentDTO {
     private FeeDTO fee;
     private LocationDTO location;
     private GradeDTO grade;
+
 }

@@ -18,12 +18,12 @@ public class FeeMapperTest {
     private FeeMapper feeMapper;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         feeMapper = FeeMapper.INSTANCE;
     }
 
     @Test
-    public void feeToFeeDTO() throws Exception {
+    public void feeToFeeDTO() {
         Fee fee = new Fee();
         fee.setId(ID);
         fee.setUniformFee(new BigDecimal(3500));
@@ -35,7 +35,7 @@ public class FeeMapperTest {
         FeeDTO feeDTO = feeMapper.feeToFeeDTO(fee);
 
         assertNotNull(feeDTO);
-        assertThat(feeDTO.getId(),is(equalTo(Long.valueOf(ID))));
+        assertThat(feeDTO.getId(),is(equalTo(ID)));
         assertThat(feeDTO.getTuitionFee(),is(equalTo(fee.getTuitionFee())));
 
         assertThat(feeDTO.getTransportFee(),is(equalTo(fee.getTransportFee())));

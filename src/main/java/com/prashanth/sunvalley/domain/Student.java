@@ -2,6 +2,7 @@ package com.prashanth.sunvalley.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,12 +12,14 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class Student {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "student_id")
     private StudentIdKeeper studentId;
 
     private String firstName;
@@ -44,7 +47,4 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
-
-
-
 }

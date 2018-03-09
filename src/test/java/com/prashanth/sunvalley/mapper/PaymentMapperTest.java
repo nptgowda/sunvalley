@@ -15,14 +15,14 @@ import static org.junit.Assert.*;
 
 public class PaymentMapperTest {
 
-    PaymentMapper paymentMapper;
+    private PaymentMapper paymentMapper;
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         paymentMapper = PaymentMapper.INSTANCE;
     }
 
     @Test
-    public void paymentToPaymentDTO() throws Exception {
+    public void paymentToPaymentDTO() {
         Payment payment = new Payment();
         payment.setId(1L);
         payment.setAmount(new BigDecimal(5000));

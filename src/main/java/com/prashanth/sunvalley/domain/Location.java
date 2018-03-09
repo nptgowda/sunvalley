@@ -20,6 +20,6 @@ public class Location {
     private BigDecimal transportFee;
 
     @OneToMany(mappedBy = "location")
-    private List<Student> student = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
 }

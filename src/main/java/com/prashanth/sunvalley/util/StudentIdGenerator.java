@@ -30,8 +30,7 @@ public class StudentIdGenerator implements IdentifierGenerator {
             if(rs.next())
             {
                 int id=rs.getInt(1)+1001;
-                String generatedId = prefix + new Integer(id).toString();
-                return generatedId;
+                return prefix + Integer.toString(id);
             }
         } catch (SQLException e) {
 

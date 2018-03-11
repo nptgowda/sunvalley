@@ -5,7 +5,7 @@ import com.prashanth.sunvalley.domain.Fee;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = PaymentMapper.class)
+@Mapper(uses = {PaymentMapper.class, MiscFeeMapper.class})
 public interface FeeMapper {
     FeeMapper INSTANCE = Mappers.getMapper(FeeMapper.class);
 

@@ -15,4 +15,5 @@ public class FeeDTO {
     private BigDecimal oldBalance;
     private List<PaymentDTO> payments;
     private List<MiscFeeDTO> miscFee;
+    private BigDecimal concession;
 }

@@ -4,8 +4,6 @@ import com.prashanth.sunvalley.Model.StudentDTO;
 import com.prashanth.sunvalley.domain.Fee;
 import com.prashanth.sunvalley.domain.Student;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {FeeMapper.class,GradeMapper.class,LocationMapper.class})

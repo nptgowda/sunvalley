@@ -1,5 +1,6 @@
 package com.prashanth.sunvalley.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Location {
     private BigDecimal transportFee;
 
     @OneToMany(mappedBy = "location")
+    @JsonBackReference
     private List<Student> students = new ArrayList<>();
 
 }

@@ -1,6 +1,7 @@
 package com.prashanth.sunvalley.service;
 
 import com.prashanth.sunvalley.Model.LocationDTO;
+import com.prashanth.sunvalley.Model.LocationListDTO;
 import com.prashanth.sunvalley.Model.StudentDTO;
 import com.prashanth.sunvalley.domain.Location;
 import com.prashanth.sunvalley.exception.NotFoundException;
@@ -45,6 +46,15 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
+    public List<LocationDTO> createLocations(LocationListDTO locationListDTO) {
+
+        return locationListDTO.getLocations().stream()
+                .map(this::createLocation)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
     public LocationDTO createLocation(LocationDTO locationDTO) {
 
         return locationMapper.locationToLocationDTO(locationRepository.save(
@@ -79,4 +89,6 @@ public class LocationServiceImpl implements LocationService {
         }else
             throw new NotFoundException("Location with id: " + id + " not found");
     }
+
+
 }

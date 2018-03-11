@@ -1,7 +1,6 @@
 package com.prashanth.sunvalley.util;
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.springframework.stereotype.Component;

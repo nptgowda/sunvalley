@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -30,12 +29,14 @@ public class Student {
     private String mothersName;
     private String mothersNumber;
     private LocalDate dateOfBirth;
+
     private String email;
 
     @Lob
     private Byte[] image;
 
     private LocalDateTime dateCreated;
+    private LocalDateTime dateUpdated;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     private Fee fee;

@@ -1,8 +1,6 @@
 package com.prashanth.sunvalley.Controller;
 
-import com.prashanth.sunvalley.Model.GradeDTO;
-import com.prashanth.sunvalley.Model.GradeListDTO;
-import com.prashanth.sunvalley.Model.StudentDTO;
+import com.prashanth.sunvalley.Model.*;
 import com.prashanth.sunvalley.service.GradeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +37,8 @@ public class GradeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GradeDTO createGrade(@RequestBody GradeDTO gradeDTO){
-        return gradeService.createGrade(gradeDTO);
+    public GradeListDTO createGrade(@RequestBody GradeListDTO gradeListDTO){
+        return new GradeListDTO(gradeService.createGrades(gradeListDTO));
     }
 
     @PutMapping("/{id}")
@@ -54,4 +52,21 @@ public class GradeController {
     public void deleteGradeById(@PathVariable Long id){
         gradeService.deleteGrade(id);
     }
+
+    @PostMapping("/{gradeId}/miscfee")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentListDTO addMiscFeeToStudent(@PathVariable Long gradeId,
+                                          @RequestBody MiscFeeDTO miscFeeDTO){
+        return new StudentListDTO(gradeService.addMiscFeeToAllStudentsOfGrade(gradeId,miscFeeDTO));
+    }
+
+    @PutMapping("/{gradeFromId}/promote/{gradeToId}")
+    @ResponseStatus(HttpStatus.OK)
+    public StudentListDTO promoteStudents(@PathVariable Long gradeFromId,
+                                          @PathVariable Long gradeToId,
+                                          @RequestBody StudentPromoteListDTO studentPromoteListDTO){
+        return new StudentListDTO(gradeService.promoteStudents(gradeFromId,gradeToId,studentPromoteListDTO));
+    }
+
+
 }

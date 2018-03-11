@@ -33,8 +33,8 @@ public class LocationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LocationDTO createLocation(@RequestBody LocationDTO locationDTO){
-        return locationService.createLocation(locationDTO);
+    public LocationListDTO createLocation(@RequestBody LocationListDTO locationListDTO){
+        return new LocationListDTO(locationService.createLocations(locationListDTO));
     }
 
     @PutMapping("/{id}")

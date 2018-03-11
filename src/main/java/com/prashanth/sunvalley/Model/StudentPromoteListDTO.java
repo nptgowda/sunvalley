@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentListDTO {
-    private List<PaymentDTO> payments;
+public class StudentPromoteListDTO {
+    private List<StudentPromoteDTO> students;
 }

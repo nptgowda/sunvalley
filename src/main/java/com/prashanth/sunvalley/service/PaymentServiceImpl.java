@@ -1,24 +1,24 @@
 package com.prashanth.sunvalley.service;
 
 import com.prashanth.sunvalley.Model.PaymentDTO;
-import com.prashanth.sunvalley.domain.Fee;
-import com.prashanth.sunvalley.domain.Payment;
-import com.prashanth.sunvalley.domain.Student;
-import com.prashanth.sunvalley.domain.StudentIdKeeper;
+import com.prashanth.sunvalley.domain.*;
 import com.prashanth.sunvalley.exception.NegativeFeeException;
 import com.prashanth.sunvalley.exception.NotFoundException;
 import com.prashanth.sunvalley.mapper.PaymentMapper;
 import com.prashanth.sunvalley.repository.PaymentRepository;
 import com.prashanth.sunvalley.repository.StudentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -49,6 +49,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public PaymentDTO createPayment(String studentId, PaymentDTO paymentDTO) {
         Payment payment =  paymentMapper.paymentDTOToPayment(paymentDTO);
+        payment.setDate(LocalDate.now());
         StudentIdKeeper studentIdKeeper = new StudentIdKeeper(studentId);
 
         Optional<Student> studentOptional = studentRepository.findByStudentId(studentIdKeeper);
@@ -66,21 +67,48 @@ public class PaymentServiceImpl implements PaymentService {
                     fee.setTuitionFee(finalAmount);
                     break;
                 case BOOK:
-                    fee.setBookFee(fee.getBookFee().subtract(payment.getAmount()));
+                    finalAmount = fee.getBookFee().subtract(payment.getAmount());
+                    if (finalAmount.compareTo(BigDecimal.ZERO) < 0)
+                        throw new NegativeFeeException("Tuition Fee cannot be less than zero");
+                    fee.setBookFee(finalAmount);
                     break;
                 case UNIFORM:
-                    fee.setUniformFee(fee.getUniformFee().subtract(payment.getAmount()));
+                    finalAmount = fee.getUniformFee().subtract(payment.getAmount());
+                    if (finalAmount.compareTo(BigDecimal.ZERO) < 0)
+                        throw new NegativeFeeException("Tuition Fee cannot be less than zero");
+                    fee.setUniformFee(finalAmount);
                     break;
                 case TRANSPORT:
-                    fee.setTransportFee(fee.getTransportFee().subtract(payment.getAmount()));
+                    finalAmount = fee.getTransportFee().subtract(payment.getAmount());
+                    if (finalAmount.compareTo(BigDecimal.ZERO) < 0)
+                        throw new NegativeFeeException("Tuition Fee cannot be less than zero");
+                    fee.setTransportFee(finalAmount);
                     break;
                 case OLD_BALANCE:
-                    fee.setOldBalance(fee.getOldBalance().subtract(payment.getAmount()));
+                    finalAmount = fee.getOldBalance().subtract(payment.getAmount());
+                    if (finalAmount.compareTo(BigDecimal.ZERO) < 0)
+                        throw new NegativeFeeException("Tuition Fee cannot be less than zero");
+                    fee.setOldBalance(finalAmount);
                     break;
-                //             todo implement misc payments
-                // case MISC:
-                //                student.getFee().getMiscFee()
+                 case MISC:
+                     if(fee.getMiscFee().size() == 0)
+                         throw new NotFoundException(payment.getMiscPaymentName() + " not found");
+                     Optional<MiscFee> requiredFeeOptional =
+                             fee.getMiscFee().stream()
+                             .filter(miscFee -> miscFee.getFeeName().equalsIgnoreCase(payment.getMiscPaymentName()))
+                             .findFirst();
+                     if(!requiredFeeOptional.isPresent())
+                         throw new NotFoundException(payment.getMiscPaymentName() + " not found");
+                     MiscFee requiredFee = requiredFeeOptional.get();
+                     requiredFee.setFeeAmount(requiredFee.getFeeAmount().subtract(payment.getAmount()));
+                     if(requiredFee.getFeeAmount().compareTo(BigDecimal.ZERO) < 0 )
+                         throw new NegativeFeeException(requiredFee.getFeeName() +" cannot be less than zero");
+                     if(requiredFee.getFeeAmount().compareTo(BigDecimal.ZERO) == 0) {
+                         requiredFee.setFee(null);
+                         fee.getMiscFee().remove(requiredFee);
+                     }
 
+                     break;
             }
 
             student.setFee(fee);
@@ -125,10 +153,22 @@ public class PaymentServiceImpl implements PaymentService {
                 case OLD_BALANCE:
                     fee.setOldBalance(fee.getOldBalance().add(payment.getAmount()));
                     break;
-//             todo implement misc payments
-// case MISC:
-//                student.getFee().getMiscFee()
-
+                case MISC:
+                    Optional<MiscFee> requiredFeeOptional =
+                            fee.getMiscFee().stream()
+                                    .filter(miscFee -> miscFee.getFeeName().equalsIgnoreCase(payment.getMiscPaymentName()))
+                                    .findFirst();
+                    if(requiredFeeOptional.isPresent()) {
+                        MiscFee requiredFee = requiredFeeOptional.get();
+                        requiredFee.setFeeAmount(requiredFee.getFeeAmount().add(payment.getAmount()));
+                    }else{
+                        MiscFee newFee = new MiscFee();
+                        newFee.setFeeName(payment.getMiscPaymentName());
+                        newFee.setFeeAmount(payment.getAmount());
+                        newFee.setFee(fee);
+                        fee.getMiscFee().add(newFee);
+                    }
+                    break;
             }
             payment.setFee(null);
             fee.getPayments().remove(payment);

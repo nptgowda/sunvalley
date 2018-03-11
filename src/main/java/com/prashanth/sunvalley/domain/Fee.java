@@ -1,5 +1,6 @@
 package com.prashanth.sunvalley.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class Fee {
     private Long id;
 
     @OneToOne
+    @JsonBackReference
     private Student student;
 
     @OneToMany(mappedBy = "fee", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -28,7 +30,9 @@ public class Fee {
     private BigDecimal uniformFee;
     private BigDecimal transportFee;
     private BigDecimal oldBalance;
-
+    private BigDecimal concession;
     @OneToMany(mappedBy = "fee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MiscFee> miscFee;
+    private List<MiscFee> miscFee = new ArrayList<>();
+    private BigDecimal totalMiscFeeAmount = new BigDecimal(0);
+
 }
